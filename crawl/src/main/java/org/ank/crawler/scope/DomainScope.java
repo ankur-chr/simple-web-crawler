@@ -26,12 +26,19 @@ public class DomainScope implements Scope {
         if (!uri.startsWith("http://") && !uri.startsWith("https://")) return false;
 
         try {
-            var host = new URL(uri).getHost().toLowerCase();
-            host = host.replaceFirst("^www\\.", "");
+            String host = extractDomain(uri);
             return host.endsWith(domain);
         } catch (MalformedURLException e) {
-            LOGGER.log(Level.FINE, "Malformed URL in scope check: " + uri, e);
+            LOGGER.log(Level.FINE, "Malformed URL: {0}", uri);
             return false;
         }
+    }
+
+    /**
+     * Extracts the domain (host) from a given URL.
+     */
+    public static String extractDomain(String url) throws MalformedURLException {
+        String host = new URL(url).getHost().toLowerCase();
+        return host.replaceFirst("^www\\.", "");
     }
 }

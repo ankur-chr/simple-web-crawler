@@ -68,7 +68,11 @@ A Simple web crawler in **Java 21**, designed to demonstrate a **modular**, **ex
 2. Run the maven clean install and exec under the project root directory as follows:
     ```bash
     mvn clean install
-    mvn exec:java
 
- ## Future enhancements
+    mvn exec:java -Dexec.args="https://www.teya.com"  (where first argument is the seed url)  
+        OR
+    mvn exec:java -Dexec.args="https://www.teya.com 5"  (where second argument is optional thread count)
 
+ ## Future enhancement that may be considered
+
+Respecting robots.txt for a website, Implementing politeness, Priority queues for exploring URLs, etc.

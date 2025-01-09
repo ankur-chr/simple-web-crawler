@@ -1,12 +1,13 @@
 package org.ank.crawler.controller;
 
 import org.ank.crawler.frontier.Frontier;
+import org.ank.crawler.frontier.SimpleFrontier;
 import org.ank.crawler.processor.Processor;
-import org.ank.crawler.scope.DomainScope;
 import org.ank.crawler.scope.Scope;
 
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
  */
 public class CrawlController {
 
+    private static final Logger LOGGER = Logger.getLogger(CrawlController.class.getName());
     private final Frontier frontier;
     private final List<Processor> processors;
     private final Scope scope;
@@ -39,9 +41,7 @@ public class CrawlController {
     public void beginCrawl(String seedUrl) {
         // Check if seed is in scope
         if (!scope.isInScope(seedUrl)) {
-            // NOTE: Console logging has been used only for the demo!
-            // In real application, this will be an ACTUAL LOGGER.
-            System.err.println("Seed URL not in scope: " + seedUrl);
+            LOGGER.log(Level.WARNING, "Seed URL not in scope: {0}", seedUrl);
             return;
         }
         // Enqueue seed

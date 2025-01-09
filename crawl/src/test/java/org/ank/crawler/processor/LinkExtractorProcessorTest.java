@@ -9,7 +9,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests LinkExtractorProcessor's behavior for extracting hyperlinks.
+ * Tests {@link LinkExtractorProcessor}'s behavior for extracting hyperlinks.
  */
 class LinkExtractorProcessorTest {
 

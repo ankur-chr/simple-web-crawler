@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests CrawlController's high-level orchestration
+ * Tests {@link CrawlController}'s high-level orchestration
  * (seed scheduling, scope checks, frontier start, etc.).
  */
 class CrawlControllerTest {

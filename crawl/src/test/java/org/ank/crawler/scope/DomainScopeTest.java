@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests DomainScope's logic for determining if URLs are in scope
+ * Tests {@link DomainScope}'s logic for determining if URLs are in scope
  * (i.e., belong to a specified domain).
  */
 class DomainScopeTest {

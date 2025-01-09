@@ -4,22 +4,18 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * Concrete implementation using JSoup to fetch HTML.
  */
 public class JsoupHtmlFetcher implements HtmlFetcher {
 
+    private static final Logger LOGGER = Logger.getLogger(JsoupHtmlFetcher.class.getName());
     private static final int TIMEOUT_MS = 5000;
-
-    /*@Override
-    public FetchedContent fetch(String uri) throws IOException {
-        Connection.Response response = Jsoup.connect(uri)
-                .timeout(TIMEOUT_MS)
-                .execute();
-
-        return new FetchedContent(response.statusCode(), response.body());
-    }*/
+    private static final int MAX_RETRIES = 3;
+    private static final int RETRY_DELAY_MS = 1000;
+    private static final String USER_AGENT = "WebCrawler/1.0";
 
     @Override
     public FetchedContent fetch(String uri) throws IOException {

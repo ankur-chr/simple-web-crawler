@@ -1,5 +1,6 @@
 package org.ank.crawler.frontier;
 
+import org.ank.crawler.Main;
 import org.ank.crawler.fetcher.HtmlFetcher;
 import org.ank.crawler.fetcher.JsoupHtmlFetcher;
 import org.ank.crawler.processor.Processor;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A minimal "Frontier" that:
@@ -22,6 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class SimpleFrontier implements Frontier {
 
+    private static final Logger LOGGER = Logger.getLogger(SimpleFrontier.class.getName());
     private final Set<String> visited = ConcurrentHashMap.newKeySet();
     private final BlockingQueue<String> uriQueue = new LinkedBlockingQueue<>();
 
@@ -143,11 +147,11 @@ public class SimpleFrontier implements Frontier {
                 }
             }
         } catch (IOException e) {
-            // Errored logged to std.out only for this console demo. In real application, actual loggers will be used.
-            System.err.println("Failed to fetch " + uri + ": " + e.getMessage());
+            // Log the error message and exception (Any failures in processing URIs will be logged at WARN level)
+            LOGGER.log(Level.WARNING, "Failed to fetch {0}: {1}", new Object[]{uri, e.getMessage()});
         } catch (Exception e) {
-            // Errored logged to console only for this console application. In real application, actual loggers will be used.
-            e.printStackTrace();
+            // Log the exception stack trace (Any failures in processing URIs will be logged at WARN level)
+            LOGGER.log(Level.WARNING, "Unexpected error occurred while processing URI: " + uri, e);
         }
     }
 
