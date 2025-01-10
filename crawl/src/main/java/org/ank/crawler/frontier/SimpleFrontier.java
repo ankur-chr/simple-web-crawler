@@ -97,7 +97,7 @@ public class SimpleFrontier implements Frontier {
         // While the queue has URIs or we haven't been interrupted
         try {
             while (!Thread.currentThread().isInterrupted()) {
-                String uri = uriQueue.poll(1, TimeUnit.SECONDS);
+                final String uri = uriQueue.poll(1, TimeUnit.SECONDS);
                 if (uri == null) {
                     // No new URIs for a while => might be done
                     return;
