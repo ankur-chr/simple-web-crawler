@@ -71,10 +71,11 @@ cd simple-web-crawler
 
 ### **Build the Project**
 ```bash
+cd crawl
 mvn clean install
 ```
 
-### **Run the Application**
+### **Run the Application (from crawl directory)**
 ```bash
 mvn exec:java -Dexec.args="www.teya.com 5"
 ```
