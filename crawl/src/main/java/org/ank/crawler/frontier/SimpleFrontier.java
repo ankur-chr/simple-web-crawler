@@ -1,6 +1,5 @@
 package org.ank.crawler.frontier;
 
-import org.ank.crawler.Main;
 import org.ank.crawler.fetcher.HtmlFetcher;
 import org.ank.crawler.fetcher.JsoupHtmlFetcher;
 import org.ank.crawler.processor.Processor;
@@ -26,6 +25,8 @@ import java.util.logging.Logger;
 public class SimpleFrontier implements Frontier {
 
     private static final Logger LOGGER = Logger.getLogger(SimpleFrontier.class.getName());
+    private static final int SHUTDOWN_TIMEOUT_MINUTES = 10;
+    public static final int QUEUE_POLL_TIMEOUT_SECONDS = 1;
     private final Set<String> visited = ConcurrentHashMap.newKeySet();
     private final BlockingQueue<String> uriQueue = new LinkedBlockingQueue<>();
 
@@ -77,7 +78,7 @@ public class SimpleFrontier implements Frontier {
         executor.shutdown();
         try {
             // For example, 10 minutes max
-            if (!executor.awaitTermination(10, TimeUnit.MINUTES)) {
+            if (!executor.awaitTermination(SHUTDOWN_TIMEOUT_MINUTES, TimeUnit.MINUTES)) {
                 executor.shutdownNow();
             }
         } catch (InterruptedException e) {
@@ -97,7 +98,7 @@ public class SimpleFrontier implements Frontier {
         // While the queue has URIs or we haven't been interrupted
         try {
             while (!Thread.currentThread().isInterrupted()) {
-                final String uri = uriQueue.poll(1, TimeUnit.SECONDS);
+                final String uri = uriQueue.poll(QUEUE_POLL_TIMEOUT_SECONDS, TimeUnit.SECONDS);
                 if (uri == null) {
                     // No new URIs for a while => might be done
                     return;

@@ -29,7 +29,7 @@ public class JsoupHtmlFetcher implements HtmlFetcher {
         // An exponential backOff policy for retries can be implemented as an enhancement.
         while (attempts < MAX_RETRIES) {
             try {
-                Connection.Response response = Jsoup.connect(uri)
+                final Connection.Response response = Jsoup.connect(uri)
                         .timeout(TIMEOUT_MS)
                         .userAgent(USER_AGENT)
                         .execute();
