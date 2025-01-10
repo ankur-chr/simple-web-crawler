@@ -1,7 +1,7 @@
 
 # Simple Web Crawler
 
-A lightweight yet powerful, **Java 21** web crawler designed for flexibility, performance, and extensibility. This application was built with a modular architecture to demonstrate clean code, concurrency, and effective software design principles.
+A lightweight yet powerful, **Java 21** web crawler designed for flexibility, performance, and extensibility. This application was built with a modular architecture, clean code, concurrency, and effective software design principles.
 
 ---
 
