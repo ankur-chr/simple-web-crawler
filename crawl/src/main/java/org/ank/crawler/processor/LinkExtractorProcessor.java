@@ -18,7 +18,7 @@ public class LinkExtractorProcessor implements Processor {
 
     @Override
     public Set<String> process(FetchedContent fetchedContent, String sourceUri) {
-        Set<String> discovered = new HashSet<>();
+        final Set<String> discovered = new HashSet<>();
 
         // If status code not 200, skip
         if (fetchedContent.statusCode() != 200) {
