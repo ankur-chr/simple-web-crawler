@@ -49,7 +49,7 @@ A lightweight yet powerful, **Java 21** web crawler designed for flexibility, pe
 | **`SimpleFrontier.java`**     | Handles URL queueing and thread-safe processing.                                             |
 | **`DomainScope.java`**        | Restricts URLs to the same domain and its subdomains.                                        |
 | **`LinkExtractorProcessor.java`** | Extracts hyperlinks (outlinks) from crawled pages.                                       |
-| **`JsoupHtmlFetcher.java`**   | Fetches HTML content using JSoup. Implements a simple retry policy.                          |
+| **`JsoupHtmlFetcher.java`**   | Fetches HTML content using JSoup.                          |
 | **`Main.java`**               | Application entry point for initializing and executing the crawler.                          |
 
 ---
