@@ -105,7 +105,7 @@ public class Main {
      */
     private static String extractBaseDomain(String seedUrl) throws MalformedURLException {
         try {
-            String baseDomain = DomainScope.extractBaseDomain(seedUrl);
+            final String baseDomain = DomainScope.extractBaseDomain(seedUrl);
             LOGGER.info("Extracted base domain: " + baseDomain);
             return baseDomain;
         } catch (MalformedURLException e) {
