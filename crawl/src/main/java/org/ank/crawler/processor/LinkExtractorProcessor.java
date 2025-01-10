@@ -26,12 +26,12 @@ public class LinkExtractorProcessor implements Processor {
         }
 
         // Parse the HTML content with JSoup
-        Document doc = Jsoup.parse(fetchedContent.content(), sourceUri);
+        final Document doc = Jsoup.parse(fetchedContent.content(), sourceUri);
 
         // Extract <a href="...">
-        Elements links = doc.select("a[href]");
+        final Elements links = doc.select("a[href]");
         for (Element el : links) {
-            String absUrl = el.absUrl("href");
+            final String absUrl = el.absUrl("href");
             if (absUrl != null && !absUrl.isBlank()) {
                 discovered.add(absUrl);
             }

@@ -17,6 +17,9 @@ public class DomainScope implements Scope {
     private final String domain; // e.g. "teya.com"
 
     public DomainScope(String domain) {
+        if (domain == null || domain.isBlank()) {
+            throw new IllegalArgumentException("Domain cannot be null or empty");
+        }
         this.domain = domain.toLowerCase();
     }
 
@@ -26,19 +29,28 @@ public class DomainScope implements Scope {
         if (!uri.startsWith("http://") && !uri.startsWith("https://")) return false;
 
         try {
-            String host = extractDomain(uri);
-            return host.endsWith(domain);
+            final String baseDomain = extractBaseDomain(uri);
+            return domain.equals(baseDomain);
         } catch (MalformedURLException e) {
-            LOGGER.log(Level.FINE, "Malformed URL: {0}", uri);
-            return false;
+            return false; // Skip malformed URLs
         }
     }
 
     /**
-     * Extracts the domain (host) from a given URL.
+     * Extracts the base domain (e.g., "teya.com") from a given URL.
+     *
+     * @param url The input URL.
+     * @return The base domain.
+     * @throws MalformedURLException If the URL is invalid.
      */
-    public static String extractDomain(String url) throws MalformedURLException {
-        String host = new URL(url).getHost().toLowerCase();
-        return host.replaceFirst("^www\\.", "");
+    public static String extractBaseDomain(String url) throws MalformedURLException {
+        final String host = new URL(url).getHost().toLowerCase();
+        final String[] parts = host.split("\\.");
+        if (parts.length > 2 && !Character.isDigit(parts[0].charAt(0))) {
+            // Remove the first segment (subdomain) if it's not an IP address
+            return String.join(".", parts[parts.length - 2], parts[parts.length - 1]);
+        }
+        return host;
     }
+
 }

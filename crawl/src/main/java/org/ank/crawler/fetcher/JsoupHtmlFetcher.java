@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 
 /**
  * Concrete implementation using JSoup to fetch HTML.
+ * <p>
+ * An inbuilt simple retry mechanism is incorporated (using retry delay interval)
+ * An exponential backoff policy based retry can be implemented in the future.
  */
 public class JsoupHtmlFetcher implements HtmlFetcher {
 
@@ -22,6 +25,8 @@ public class JsoupHtmlFetcher implements HtmlFetcher {
         int attempts = 0;
         IOException lastException = null;
 
+        // Simple retry policy has been implemented.
+        // An exponential backOff policy for retries can be implemented as an enhancement.
         while (attempts < MAX_RETRIES) {
             try {
                 Connection.Response response = Jsoup.connect(uri)

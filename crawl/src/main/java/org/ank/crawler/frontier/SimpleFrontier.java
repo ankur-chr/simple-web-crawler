@@ -125,15 +125,14 @@ public class SimpleFrontier implements Frontier {
         // We fetch once, then run it through the processors
         try {
             // For demonstration, let's do a single fetch here
-            HtmlFetcher fetcher = new JsoupHtmlFetcher();
-            var fetchedContent = fetcher.fetch(uri);
+            final HtmlFetcher fetcher = new JsoupHtmlFetcher();
+            final var fetchedContent = fetcher.fetch(uri);
 
             // Then apply each processor in sequence
-            Set<String> newlyDiscovered = new HashSet<>();
-            var currentContent = fetchedContent;
+            final Set<String> newlyDiscovered = new HashSet<>();
 
             for (Processor proc : processors) {
-                Set<String> discovered = proc.process(currentContent, uri);
+                final Set<String> discovered = proc.process(fetchedContent, uri);
                 if (discovered != null) {
                     newlyDiscovered.addAll(discovered);
                 }

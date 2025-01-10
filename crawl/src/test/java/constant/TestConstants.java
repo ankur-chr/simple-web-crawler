@@ -22,5 +22,9 @@ public class TestConstants {
     public static final String VALID_ABOUT_URL = "http://teya.com/about";
     public static final String GOOGLE_SEARCH_URL_TEYA = "https://www.google.com/search?q=teya";
     public static final String TEYA_UK_URL = "https://teya.co.uk/page";
+    public static final String DOMAIN_ONLY_URL = "https://teya.com";
     public static final String TEYA_COM_DOMAIN = "teya.com";
+    public static final String MULTI_SUBDOMAIN_URL = "https://sub1.sub2.teya.com";
+    public static final String IP_ADDRESS_URL = "http://192.168.1.1";
+
 }

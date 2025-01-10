@@ -1,78 +1,122 @@
+
 # Simple Web Crawler
 
-A Simple web crawler in **Java 21**, designed to demonstrate a **modular**, **extensible** architecture. This project uses **JSoup** as the only external library (allowed for HTML parsing/HTTP).
+A lightweight yet powerful, **Java 21** web crawler designed for flexibility, performance, and extensibility. This application was built with a modular architecture to demonstrate clean code, concurrency, and effective software design principles.
 
 ---
 
-## Features
+## **Features**
 
-- **Components**
-    - **`Scope`**: Decides if a URL is in or out of scope.
-    - **`Frontier`**: Manages scheduling, concurrency, and retrieval of URLs.
-    - **`Processor`**: Processes fetched pages (e.g., extracting links).
-    - **`CrawlController`**: Orchestrates the entire crawl by scheduling seeds and starting the Frontier.
+### **Core Components**
 
-- **Concurrent Fetching**
-    - Multiple worker threads poll URLs from a queue.
-    - Each thread fetches a URL, processes it, and discovers new URLs.
+1. **Scope**
+   - Determines whether a URL should be crawled based on predefined rules.
+   - Example: `DomainScope` restricts crawling to the seed domain and its subdomains.
 
-- **Domain-Limited Scope**
-    - A simple **`DomainScope`** ensures only links within a specific domain (including subdomains) are crawled.
+2. **Frontier**
+   - Manages the queue of URLs to be crawled.
+   - Includes a thread-safe implementation (`SimpleFrontier`) for concurrent processing.
 
-- **Extensible**
-    - Add new Processors (e.g., for analytics, data storage, or image extraction).
-    - Replace or enhance **`Scope`** to handle complex rules (paths, file types, `robots.txt`, etc.).
-    - Introduce advanced scheduling or politeness strategies in **`Frontier`**.
+3. **Processor**
+   - Handles content extraction and processing for crawled pages.
+   - Example: `LinkExtractorProcessor` extracts hyperlinks from pages.
 
----
+4. **CrawlController**
+   - Orchestrates the entire crawling process by integrating `Scope`, `Frontier`, and `Processor`.
 
+### **Additional Features**
 
-### Key Files
-
-1. **`CrawlController.java`**  
-   Orchestrates the entire crawl, sets up the **Frontier**, **Scope**, and **Processors**.
-
-2. **`Frontier.java`** & **`SimpleFrontier.java`**
-    - Schedules URLs to be processed.
-    - Spawns worker threads that fetch and process each URL. 
-    - This is where concurrency and URI queueing happen.
-
-3. **`Scope.java`** & **`DomainScope.java`**
-    - Determines which URLs are “in scope.”
-    - `DomainScope` restricts links to a specific domain.
-
-4. **`Processor.java`** & **`LinkExtractorProcessor.java`**
-    - Each `Processor` can parse or transform the fetched content.
-    - `LinkExtractorProcessor` finds hyperlinks (outlinks) in HTML and returns them.
-
-5. **`HtmlFetcher.java`** & **`JsoupHtmlFetcher.java`**
-    - `JsoupHtmlFetcher` uses **JSoup** to perform HTTP requests and capture the response (`FetchedContent`).
-    - This is where you can customize headers, user-agents, or timeouts.
-
-6. **`Main.java`**
-    - Demo entry point.
-    - Creates all components (scope, processor list, frontier) and starts the crawl with a seed URL.
+- **Concurrency**: Multi-threaded crawling with a configurable thread pool.
+- **Extensibility**: Easily add custom processors for tasks such as analytics or content indexing.
+- **Modularity**: Each component (e.g., scope, processor) can be independently extended or replaced.
 
 ---
 
-## Prerequisites
+## **Key Design Principles**
 
-- **Java 21** (has been tested with OpenJDK v21)
-- **Maven** (a Maven `pom.xml` is provided).
+1. **Separation of Concerns**: Each class has a single responsibility (e.g., crawling, processing).
+2. **Scalability**: Built with concurrency in mind, ensuring efficient URL processing.
+3. **Testability**: Unit tests ensure robustness for edge cases like malformed URLs and subdomains.
+4. **Error Handling**: Graceful handling of invalid URLs, connection timeouts, and retries.
 
 ---
 
-## How to Build & Run
+## **Project Structure - Key details **
 
-1. **Clone or Download** this repository: https://github.com/ankur-chr/simple-web-crawler.git
-2. Run the maven clean install and exec under the project root directory as follows:
-    ```bash
-    mvn clean install
+| File                          | Description                                                                                  |
+|-------------------------------|----------------------------------------------------------------------------------------------|
+| **`CrawlController.java`**    | Manages the crawling lifecycle, integrating all major components.                            |
+| **`SimpleFrontier.java`**     | Handles URL queueing and thread-safe processing.                                             |
+| **`DomainScope.java`**        | Restricts URLs to the same domain and its subdomains.                                         |
+| **`LinkExtractorProcessor.java`** | Extracts hyperlinks (outlinks) from crawled pages.                                         |
+| **`JsoupHtmlFetcher.java`**   | Fetches HTML content using JSoup.                                                            |
+| **`Main.java`**               | Application entry point for initializing and executing the crawler.                          |
 
-    mvn exec:java -Dexec.args="https://www.teya.com"  (where first argument is the seed url)  
-        OR
-    mvn exec:java -Dexec.args="https://www.teya.com 5"  (where second argument is optional thread count)
+---
 
- ## Future enhancement that may be considered
+## **Prerequisites**
 
-Respecting robots.txt for a website, Implementing politeness, Priority queues for exploring URLs, etc.
+1. **Java 21**: Ensure you have Java 21 or later installed.
+2. **Maven**: Used for building and running the application.
+
+---
+
+## **Build & Run Instructions**
+
+### **Clone the Repository**
+```bash
+git clone https://github.com/ankur-chr/simple-web-crawler.git
+cd simple-web-crawler
+```
+
+### **Build the Project**
+```bash
+mvn clean install
+```
+
+### **Run the Application**
+```bash
+mvn exec:java -Dexec.args="www.teya.com 5"
+```
+- **Arguments**:
+  - `www.teya.com`: The seed URL to start crawling. Optionally, can have protocol specified (http:// or https:// only)
+  - `5`: (Optional) Number of threads for concurrent crawling (default: `5`).
+
+### **Output**
+- Displays all visited URLs in the console.
+- Total count of visited URLs is shown at the end of the crawl.
+
+---
+
+## **Error Handling**
+
+- **Malformed URLs**: Skipped with detailed logging.
+- **Connection Errors**: Retry logic with a delay.
+- **Out-of-Scope URLs**: Ignored based on the domain.
+
+---
+
+## **Future Enhancements**
+
+1. **Respect Robots.txt**: Add functionality to honor `robots.txt` rules.
+2. **Custom Crawl Strategies**: Priority-based or depth-limited crawling.
+3. **Politeness Policies**: Delays between requests to avoid overloading servers.
+4. **Data Persistence**: Store crawled data in a database for advanced analytics.
+5. **Exponential BackOff based Retry**: Staggered retries via exponential back off policy.
+
+---
+
+## **Technical Decisions**
+
+### **Why JSoup?**
+- Lightweight and efficient for HTML parsing and HTTP handling.
+- Reliable error management for malformed HTML.
+
+### **Why Java 21?**
+- Access to enhanced concurrency tools and updated language features.
+- Demonstrates familiarity with modern Java features.
+
+---
+
+## **Contact**
+For questions or further discussion, please reach out to **[Ankur Chrungoo](mailto:ankur.chrungoo@gmail.com)**.
