@@ -47,9 +47,9 @@ A lightweight yet powerful, **Java 21** web crawler designed for flexibility, pe
 |-------------------------------|----------------------------------------------------------------------------------------------|
 | **`CrawlController.java`**    | Manages the crawling lifecycle, integrating all major components.                            |
 | **`SimpleFrontier.java`**     | Handles URL queueing and thread-safe processing.                                             |
-| **`DomainScope.java`**        | Restricts URLs to the same domain and its subdomains.                                         |
-| **`LinkExtractorProcessor.java`** | Extracts hyperlinks (outlinks) from crawled pages.                                         |
-| **`JsoupHtmlFetcher.java`**   | Fetches HTML content using JSoup.                                                            |
+| **`DomainScope.java`**        | Restricts URLs to the same domain and its subdomains.                                        |
+| **`LinkExtractorProcessor.java`** | Extracts hyperlinks (outlinks) from crawled pages.                                       |
+| **`JsoupHtmlFetcher.java`**   | Fetches HTML content using JSoup. Implements retries                                         |
 | **`Main.java`**               | Application entry point for initializing and executing the crawler.                          |
 
 ---
