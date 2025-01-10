@@ -16,7 +16,7 @@ class LinkExtractorProcessorTest {
     @Test
     void testProcessWith200Status() {
         // Sample HTML with absolute and relative links
-        String html = """
+        final String html = """
                 <html>
                   <body>
                     <a href="https://www.example.com/abs">Absolute Link</a>
@@ -24,10 +24,10 @@ class LinkExtractorProcessorTest {
                   </body>
                 </html>
                 """;
-        FetchedContent fetched = new FetchedContent(200, html);
-        LinkExtractorProcessor processor = new LinkExtractorProcessor();
+        final FetchedContent fetched = new FetchedContent(200, html);
+        final LinkExtractorProcessor processor = new LinkExtractorProcessor();
 
-        Set<String> discovered = processor.process(fetched, TestConstants.URL_EXAMPLE_BASE);
+        final Set<String> discovered = processor.process(fetched, TestConstants.URL_EXAMPLE_BASE);
 
         // Should convert the relative link to https://www.example.com/relative
         assertTrue(discovered.contains(TestConstants.URL_EXAMPLE_ABS));
@@ -38,17 +38,17 @@ class LinkExtractorProcessorTest {
     @Test
     void testProcessNon200Status() {
         // If status code != 200 => no links extracted
-        FetchedContent fetched = new FetchedContent(404, "<html>404 Not Found</html>");
-        LinkExtractorProcessor processor = new LinkExtractorProcessor();
-        Set<String> discovered = processor.process(fetched, TestConstants.URL_EXAMPLE_BASE);
+        final FetchedContent fetched = new FetchedContent(404, "<html>404 Not Found</html>");
+        final LinkExtractorProcessor processor = new LinkExtractorProcessor();
+        final Set<String> discovered = processor.process(fetched, TestConstants.URL_EXAMPLE_BASE);
         assertTrue(discovered.isEmpty());
     }
 
     @Test
     void testEmptyHtml() {
-        FetchedContent fetched = new FetchedContent(200, "");
-        LinkExtractorProcessor processor = new LinkExtractorProcessor();
-        Set<String> discovered = processor.process(fetched, TestConstants.URL_EXAMPLE_BASE);
+        final FetchedContent fetched = new FetchedContent(200, "");
+        final LinkExtractorProcessor processor = new LinkExtractorProcessor();
+        final Set<String> discovered = processor.process(fetched, TestConstants.URL_EXAMPLE_BASE);
         assertTrue(discovered.isEmpty());
     }
 }

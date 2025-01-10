@@ -40,7 +40,7 @@ class SimpleFrontierTest {
         frontier.start(List.of(mockProcessor), mockScope);
 
         TimeUnit.SECONDS.sleep(2);
-        Set<String> visited = frontier.getVisited();
+        final Set<String> visited = frontier.getVisited();
 
         assertEquals(1, visited.size());
         assertTrue(visited.contains(TestConstants.VALID_SEED_URL));
@@ -56,7 +56,7 @@ class SimpleFrontierTest {
 
         TimeUnit.SECONDS.sleep(2);
 
-        Set<String> visited = frontier.getVisited();
+        final Set<String> visited = frontier.getVisited();
         assertTrue(visited.contains(TestConstants.VALID_SEED_URL));
         assertTrue(visited.contains(TestConstants.CHILD_URL_1));
         assertTrue(visited.contains(TestConstants.CHILD_URL_2));
@@ -75,7 +75,7 @@ class SimpleFrontierTest {
         frontier.start(List.of(mockProcessor), mockScope);
 
         TimeUnit.SECONDS.sleep(2);
-        Set<String> visited = frontier.getVisited();
+        final Set<String> visited = frontier.getVisited();
 
         assertEquals(1, visited.size());
         assertTrue(visited.contains(TestConstants.VALID_SEED_URL));

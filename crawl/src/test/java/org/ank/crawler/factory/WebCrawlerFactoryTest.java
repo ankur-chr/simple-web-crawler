@@ -1,5 +1,6 @@
 package org.ank.crawler.factory;
 
+import constant.TestConstants;
 import org.ank.crawler.controller.CrawlController;
 import org.ank.crawler.frontier.Frontier;
 import org.ank.crawler.processor.Processor;
@@ -37,7 +38,7 @@ class WebCrawlerFactoryTest {
     @Test
     void createController_shouldReturnValidCrawlController() {
         // Act
-        CrawlController controller = factory.createController();
+        final CrawlController controller = factory.createController();
 
         // Assert
         assertNotNull(controller, "CrawlController should not be null");
@@ -48,16 +49,13 @@ class WebCrawlerFactoryTest {
 
     @Test
     void createController_shouldUseProvidedComponentsForBehavior() {
-        // Arrange
-        String testUrl = "https://example.com";
-
         // Mock the scope to return true for the test URL
-        when(mockScope.isInScope(testUrl)).thenReturn(true);
+        when(mockScope.isInScope(TestConstants.BASE_EXAMPLE_URL)).thenReturn(true);
 
         // Simulate URL scheduling and crawling behavior
         doAnswer(invocation -> {
             String url = invocation.getArgument(0);
-            if (url.equals(testUrl)) {
+            if (url.equals(TestConstants.BASE_EXAMPLE_URL)) {
                 // Simulate that the frontier is scheduling the URL
                 return null;
             }
@@ -65,12 +63,12 @@ class WebCrawlerFactoryTest {
         }).when(mockFrontier).schedule(anyString());
 
         // Act
-        CrawlController controller = factory.createController();
-        controller.beginCrawl(testUrl);
+        final CrawlController controller = factory.createController();
+        controller.beginCrawl(TestConstants.BASE_EXAMPLE_URL);
 
         // Assert
-        verify(mockScope, atLeastOnce()).isInScope(testUrl); // Verify scope check
-        verify(mockFrontier, atLeastOnce()).schedule(testUrl); // Verify scheduling
+        verify(mockScope, atLeastOnce()).isInScope(TestConstants.BASE_EXAMPLE_URL); // Verify scope check
+        verify(mockFrontier, atLeastOnce()).schedule(TestConstants.BASE_EXAMPLE_URL); // Verify scheduling
         verify(mockFrontier, atLeastOnce()).start(mockProcessors, mockScope); // Verify start
     }
 
