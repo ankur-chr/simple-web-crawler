@@ -122,4 +122,4 @@ mvn exec:java -Dexec.args="www.teya.com 5"
 ---
 
 ## **Contact**
-For questions or further discussion, please reach out to **[Ankur Chrungoo](mailto:ankur.chrungoo@gmail.com)**.
+For questions or further discussion, please reach out.
