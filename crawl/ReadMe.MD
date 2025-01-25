@@ -115,7 +115,7 @@ mvn exec:java -Dexec.args="www.teya.com 5"
 
 ### **Why Java 21?**
 - Access to enhanced concurrency tools and updated language features.
-- Demonstrates familiarity with modern Java features.
+- Utilize latest features
 
 ### **Why basic Logging?**
 - Faster and Lightweight demonstration of web crawler without using advanced logging or logging frameworks.
